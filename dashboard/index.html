@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index - Easy Learn</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Easy Learn - Home</h1>
+        <h2>Admin Dashboard</h2>
+        <div class="options">
+            <button id="addQuestionsBtn">Add Questions</button>
+            <button id="userManagementBtn">User Management</button>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+    <script>
+        // Access Control: Redirect to Dashboard if not logged in
+        (function() {
+            const restrictedPages = [
+                'user_dashboard.html',
+                'admin_panel/dashboard.html', // Add other restricted pages as needed
+                // 'quiz/quiz.html' // If quiz should be restricted
+            ];
+    
+            const currentPage = window.location.pathname.split('/').pop();
+            if (restrictedPages.includes(currentPage)) {
+                const loggedInUser = localStorage.getItem('loggedInUser') || localStorage.getItem('loggedInAdmin');
+                if (!loggedInUser) {
+                    alert('Access denied. Please log in first.');
+                    window.location.href = '../dashboard/dashboard.html';
+                }
+            }
+        })();
+    </script>
+    
+</body>
+</html>

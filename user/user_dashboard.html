@@ -1,0 +1,106 @@
+<!-- user/user_dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - Easy Learn</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Ensure correct path -->
+</head>
+<body>
+    <!-- Navigation Bar (optional, can be included for consistency) -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../dashboard/dashboard.html" class="nav-logo">Easy Learn</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../quiz/quiz.html" class="nav-links">Take Quiz</a></li>
+                <li class="nav-item"><a href="#" class="nav-links" id="logoutBtn">Log Out</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1>User Dashboard</h1>
+        <div id="userInfo">
+            <h2>User Information</h2>
+            <p id="nameDisplay"></p>
+            <p id="emailDisplay"></p>
+            <p id="phoneDisplay"></p>
+            <p id="genderDisplay"></p>
+            <p id="usernameDisplay"></p>
+        </div>
+        
+        <div class="options">
+            <button id="takeQuizBtn">Take a Quiz</button>
+            <button id="viewScoresBtn">View Scores</button>
+            <button id="logoutBtn">Log Out</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../user/scripts.js"></script> <!-- Ensure correct path -->
+    <script>
+        // Function to display user information
+        function displayUserInfo() {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (!loggedInUser) {
+                alert('Please log in first.');
+                window.location.href = '../dashboard/dashboard.html';
+                return;
+            }
+            const userCredentials = JSON.parse(localStorage.getItem('userCredentials')) || [];
+            const user = userCredentials.find(user => user.username === loggedInUser);
+
+            if (user) {
+                document.getElementById('nameDisplay').innerText = `Name: ${user.name}`;
+                document.getElementById('emailDisplay').innerText = `Email: ${user.email}`;
+                document.getElementById('phoneDisplay').innerText = `Phone: ${user.phone}`;
+                document.getElementById('genderDisplay').innerText = `Gender: ${user.gender}`;
+                document.getElementById('usernameDisplay').innerText = `Username: ${user.username}`;
+            } else {
+                alert('User not found. Please log in again.');
+                window.location.href = '../dashboard/dashboard.html';
+            }
+        }
+
+        // Function to handle log out
+        function handleLogout() {
+            localStorage.removeItem('loggedInUser');
+            window.location.href = '../dashboard/dashboard.html'; // Redirect to dashboard
+        }
+
+        // Event Listeners
+        document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+        document.getElementById('takeQuizBtn').addEventListener('click', () => {
+            window.location.href = '../quiz/quiz.html';
+        });
+        document.getElementById('viewScoresBtn').addEventListener('click', () => {
+            window.location.href = '../scores/scores.html';
+        });
+
+        // Call the function to display user information when the page loads
+        window.onload = displayUserInfo;
+    </script>
+    <script>
+        // Access Control: Redirect to Dashboard if not logged in
+        (function() {
+            const restrictedPages = [
+                'user_dashboard.html',
+                'admin_panel/dashboard.html', // Add other restricted pages as needed
+                // 'quiz/quiz.html' // If quiz should be restricted
+            ];
+    
+            const currentPage = window.location.pathname.split('/').pop();
+            if (restrictedPages.includes(currentPage)) {
+                const loggedInUser = localStorage.getItem('loggedInUser') || localStorage.getItem('loggedInAdmin');
+                if (!loggedInUser) {
+                    alert('Access denied. Please log in first.');
+                    window.location.href = '../dashboard/dashboard.html';
+                }
+            }
+        })();
+    </script>
+    
+</body>
+</html>

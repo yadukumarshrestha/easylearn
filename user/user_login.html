@@ -1,0 +1,30 @@
+<!-- user/user_login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login - Easy Learn</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts for better typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons (Optional) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/kTcLxr0eHfA72N2S4p3I+E1kgVdZggHh+BfEdfVkxtiNX6tXrkL7GdqdMIg49r7ZbAqFZCIqcs2zg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="login-container">
+        <h1>User Login</h1>
+        <form id="userLoginForm">
+            <label for="userUsername">Username:</label>
+            <input type="text" id="userUsername" required>
+
+            <label for="userPassword">Password:</label>
+            <input type="password" id="userPassword" required>
+
+            <button type="submit" class="btn login-btn"><i class="fas fa-sign-in-alt"></i> Login</button>
+        </form>
+        <p>Don't have an account? <a href="user_registration.html">Register here</a></p>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>

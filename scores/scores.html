@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scores - Easy Learn</title>
+    <link rel="stylesheet" href="style.css"> <!-- Adjust the path if necessary -->
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/kTcLxr0eHfA72N2S4p3I+E1kgVdZggHh+BfEdfVkxtiNX6tXrkL7GdqdMIg49r7ZbAqFZCIqcs2zg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="profile-section">
+                <i class="fas fa-user-circle fa-3x"></i>
+                <h2 id="usernameDisplay">Username</h2>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="../user/user_dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="../quiz/quiz.html"><i class="fas fa-pencil-alt"></i> Take Quiz</a></li>
+                    <li><a href="#" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header>
+                <h1>Your Quiz Scores</h1>
+            </header>
+
+            <section class="scores-section">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Quiz Name</th>
+                            <th>Score</th>
+                            <th>Total</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scoresTableBody">
+                        <!-- Dynamic Content -->
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <script src="scripts.js"></script>
+    <script>
+        // Function to display user information
+        function displayUserInfo() {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            const userCredentials = JSON.parse(localStorage.getItem('userCredentials')) || [];
+            const user = userCredentials.find(user => user.username === loggedInUser);
+
+            if (user) {
+                document.getElementById('usernameDisplay').innerText = user.username;
+            } else {
+                alert('User not found. Please log in again.');
+                window.location.href = '../user/user_login.html';
+            }
+        }
+
+        // Function to handle logout
+        function handleLogout() {
+            localStorage.removeItem('loggedInUser');
+            window.location.href = '../user/user_login.html'; // Redirect to login page
+        }
+
+        // Event Listeners for Logout
+        document.getElementById('logoutLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            handleLogout();
+        });
+
+        // Function to load scores
+        function loadScores() {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            const userScores = JSON.parse(localStorage.getItem('userScores')) || [];
+            const scoresTableBody = document.getElementById('scoresTableBody');
+
+            // Filter scores for the logged-in user
+            const userActivities = userScores.filter(score => score.username === loggedInUser)
+                                             .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            if (userActivities.length === 0) {
+                scoresTableBody.innerHTML = '<tr><td colspan="5">No scores available.</td></tr>';
+                return;
+            }
+
+            userActivities.forEach((activity, index) => {
+                const tr = document.createElement('tr');
+
+                const tdIndex = document.createElement('td');
+                tdIndex.innerText = index + 1;
+                tr.appendChild(tdIndex);
+
+                const tdQuizName = document.createElement('td');
+                tdQuizName.innerText = activity.quizName;
+                tr.appendChild(tdQuizName);
+
+                const tdScore = document.createElement('td');
+                tdScore.innerText = activity.score;
+                tr.appendChild(tdScore);
+
+                const tdTotal = document.createElement('td');
+                tdTotal.innerText = activity.total;
+                tr.appendChild(tdTotal);
+
+                const tdDate = document.createElement('td');
+                tdDate.innerText = activity.date;
+                tr.appendChild(tdDate);
+
+                scoresTableBody.appendChild(tr);
+            });
+        }
+
+        // Initialize the Scores Page
+        document.addEventListener('DOMContentLoaded', () => {
+            displayUserInfo();
+            loadScores();
+        });
+    </script>
+</body>
+</html>

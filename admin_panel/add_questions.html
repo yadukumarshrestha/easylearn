@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Questions - Easy Learn</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Add Questions</h1>
+        <form id="addQuestionForm">
+            <input type="hidden" id="questionId"> <!-- Hidden field for editing -->
+
+            <label for="question">Question:</label>
+            <input type="text" id="question" required>
+
+            <label for="option1">Option 1:</label>
+            <input type="text" id="option1" required>
+
+            <label for="option2">Option 2:</label>
+            <input type="text" id="option2" required>
+
+            <label for="option3">Option 3:</label>
+            <input type="text" id="option3" required>
+
+            <label for="option4">Option 4:</label>
+            <input type="text" id="option4" required>
+
+            <label for="correctAnswer">Correct Answer:</label>
+            <input type="text" id="correctAnswer" required>
+
+            <button type="submit" id="submitBtn">Add Question</button>
+            <button type="button" id="cancelEditBtn" style="display:none;">Cancel Edit</button>
+        </form>
+
+        <h2>Existing Questions</h2>
+        <div id="questionsList"></div>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
